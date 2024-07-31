@@ -1,6 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import { useContext, useState } from 'react';
 
 /* Components */
 import * as Toast from '@radix-ui/react-toast';
@@ -11,7 +12,9 @@ import { ResponseData } from '@/app/interfaces/response/IResponse';
 
 /* Actions */
 import { uploadFile } from '@/app/actions/file';
-import { useState } from 'react';
+
+/* Context */
+import { FileDataContext } from '@/app/context/fileContext';
 
 type Props = {
   file: IFile
@@ -21,6 +24,9 @@ const ConfirmUpload: React.FC<Props> = ({ file }) =>
 {
   const [response, setResponse] = useState<ResponseData>();
   const [open, setOpen] = useState<boolean>(false);
+
+  const { setFile } = useContext(FileDataContext);
+
   const router = useRouter();
 
   const handleClick = async() =>
@@ -31,7 +37,11 @@ const ConfirmUpload: React.FC<Props> = ({ file }) =>
 
     if (response.status === 200 || response.status === 400) setOpen(!open);
 
-    if (response.status === 200) router.refresh(); // Refresh List
+    if (response.status === 200)
+    {
+      setFile({});
+      router.refresh(); // Refresh List
+    }
   };
 
   return (
@@ -70,7 +80,14 @@ const ConfirmUpload: React.FC<Props> = ({ file }) =>
         <Toast.Description asChild>
           <p>
             {
-              response?.error?.issues[0].message || 'File uploaded successfully'
+              response?.error
+              ?
+                response?.error?.issues
+                ? response?.error?.issues[0].message
+                : response?.error.message === 'Request failed with status code 400'
+                  ? 'There are no files yet'
+                  : response?.error.message
+              : 'File uploaded successfully'
             }
           </p>
         </Toast.Description>

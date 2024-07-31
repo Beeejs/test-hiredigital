@@ -93,7 +93,7 @@ const ItemFile: React.FC<{ file: ListBlobResultBlob }> = ({ file }) =>
         </Dialog.Portal>
       </Dialog.Root>
         <button onClick={() => handleDeleteFile(url)}>
-          <TrashIcon className='w-5 h-5 text-primary'/>
+          <TrashIcon className='w-5 h-5 text-primary hover:text-red-500 transition-colors ease duration-200'/>
         </button>
       </div>
     </article>

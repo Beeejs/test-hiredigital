@@ -1,70 +1,20 @@
 'use client';
 
-import { useState } from 'react';
+import { useContext } from 'react';
 
-/* Uuid */
-import { v4 as uuidv4 } from 'uuid';
+/* Components */
+import ConfirmUpload from '../buttons/files';
 
 /* Redux Icon */
 import { UploadIcon } from '@radix-ui/react-icons';
 
-/* Interfaces */
-import { IFile } from '@/app/interfaces/files/IFile';
-import ConfirmUpload from '../buttons/files';
+/* Context */
+import { FileDataContext } from '@/app/context/fileContext';
+
 
 const UploadComponent = () =>
 {
-  const [file, setFile] = useState<IFile>(
-    {
-      id: '',
-      preview: '',
-      name: '',
-      size: 0,
-      type: ''
-    }
-  );
-
-  // Drop a file
-  const handleDrop = (event: React.DragEvent<HTMLDivElement>) =>
-  {
-    event.preventDefault();
-    const uploadFile = event.dataTransfer.files[0];
-    setFile(
-      {
-        id: uuidv4(), // Create ID
-        preview: URL.createObjectURL(new Blob([uploadFile])), // Preview
-        name: uploadFile.name,
-        size: uploadFile.size,
-        type: uploadFile.type
-      }
-    );
-  };
-
-  // Drag over a file
-  const handleDragOver = (event: React.DragEvent<HTMLDivElement>) =>
-  {
-    event.preventDefault();
-  };
-
-  // Select a file
-  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) =>
-  {
-    const files = event.target.files;
-    if (files && files.length > 0)
-    {
-      const uploadFile = files[0];
-
-      setFile(
-        {
-          id: uuidv4(), // Create ID
-          preview: URL.createObjectURL(new Blob([uploadFile])), // Preview
-          name: uploadFile.name,
-          size: uploadFile.size,
-          type: uploadFile.type
-        }
-      );
-    }
-  };
+  const { file, handleDrop, handleDragOver, handleFileSelect } = useContext(FileDataContext);
 
   // Simulate an Input click
   const handleClick = () =>

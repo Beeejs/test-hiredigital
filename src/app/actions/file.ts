@@ -43,6 +43,7 @@ export const getFiles = async() =>
   }
 };
 
+// In the documentation there is no method to edit, so this was a solution
 export const updateFile = async(url: string, newPathname: string) =>
 {
   try
