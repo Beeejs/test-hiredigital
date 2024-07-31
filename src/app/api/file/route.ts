@@ -42,3 +42,10 @@ export async function DELETE(request: Request)
 
   return new Response();
 }
+
+// Another important change:
+export const config = {
+  api: {
+    bodyParser: false
+  }
+};

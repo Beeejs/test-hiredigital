@@ -8,7 +8,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 interface ContextProps {
   file: IFile;
-  setFile: React.Dispatch<React.SetStateAction<IFile>>;
+  setFile: (file: IFile) => void;
   handleDrop: (event: React.DragEvent<HTMLDivElement>) => void;
   handleDragOver: (event: React.DragEvent<HTMLDivElement>) => void;
   handleFileSelect: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -19,29 +19,20 @@ export const FileDataContext = createContext<ContextProps>({} as ContextProps);
 
 const FileContext = ({ children }: { children: React.ReactNode }) =>
 {
-  const [file, setFile] = useState<IFile>
-  (
-    typeof window !== 'undefined' &&
-    window.localStorage.getItem('file')
-    ?
-      JSON.parse(localStorage.getItem('file') as string)
-    :
-      {
-        id: '',
-        preview: '',
-        name: '',
-        size: 0,
-        type: ''
-      }
+  const [file, setFile] = useState<IFile>(
+    {
+      id: '',
+      preview: '',
+      name: '',
+      size: 0,
+      type: ''
+    }
   );
 
-  useEffect(() =>
+ /*  useEffect(() =>
   {
-    if (typeof window !== 'undefined')
-    {
-      window.localStorage.setItem('file', JSON.stringify(file));
-    }
-  }, [file]);
+    localStorage.setItem('file', JSON.stringify(file));
+  }, [file]); */
 
   // Drop a file
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) =>
