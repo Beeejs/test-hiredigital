@@ -12,7 +12,6 @@ interface ContextProps {
   handleDrop: (event: React.DragEvent<HTMLDivElement>) => void;
   handleDragOver: (event: React.DragEvent<HTMLDivElement>) => void;
   handleFileSelect: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  /* refreshFiles: boolean; */
 }
 
 
@@ -20,7 +19,7 @@ export const FileDataContext = createContext<ContextProps>({} as ContextProps);
 
 const FileContext = ({ children }: { children: React.ReactNode }) =>
 {
-  const [file, setFile] = useState<IFile>(localStorage.getItem('file') ? JSON.parse(localStorage.getItem('file') as string) : {
+  const [file, setFile] = useState<IFile>(window.localStorage.getItem('file') ? window.JSON.parse(localStorage.getItem('file') as string) : {
     id: '',
     preview: '',
     name: '',
@@ -30,7 +29,7 @@ const FileContext = ({ children }: { children: React.ReactNode }) =>
 
   useEffect(() =>
   {
-    localStorage.setItem('file', JSON.stringify(file));
+    window.localStorage.setItem('file', JSON.stringify(file));
   }, [file]);
 
   // Drop a file
