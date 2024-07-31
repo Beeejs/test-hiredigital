@@ -39,7 +39,13 @@ const ConfirmUpload: React.FC<Props> = ({ file }) =>
 
     if (response.status === 200)
     {
-      setFile({});
+      setFile({
+        id: '',
+        preview: '',
+        name: '',
+        size: 0,
+        type: ''
+      });
       router.refresh(); // Refresh List
     }
   };
