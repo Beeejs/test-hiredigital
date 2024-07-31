@@ -21,7 +21,7 @@ const FileContext = ({ children }: { children: React.ReactNode }) =>
 {
   const [file, setFile] = useState<IFile>
   (
-    window &&
+    typeof window !== 'undefined' &&
     window.localStorage.getItem('file')
     ?
       JSON.parse(localStorage.getItem('file') as string)
@@ -37,7 +37,7 @@ const FileContext = ({ children }: { children: React.ReactNode }) =>
 
   useEffect(() =>
   {
-    if (typeof window !== undefined)
+    if (typeof window !== 'undefined')
     {
       window.localStorage.setItem('file', JSON.stringify(file));
     }
