@@ -24,7 +24,7 @@ const FileContext = ({ children }: { children: React.ReactNode }) =>
     window &&
     window.localStorage.getItem('file')
     ?
-      window.JSON.parse(localStorage.getItem('file') as string)
+      JSON.parse(localStorage.getItem('file') as string)
     :
       {
         id: '',
