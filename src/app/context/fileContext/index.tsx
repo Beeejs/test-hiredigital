@@ -19,17 +19,28 @@ export const FileDataContext = createContext<ContextProps>({} as ContextProps);
 
 const FileContext = ({ children }: { children: React.ReactNode }) =>
 {
-  const [file, setFile] = useState<IFile>(window.localStorage.getItem('file') ? window.JSON.parse(localStorage.getItem('file') as string) : {
-    id: '',
-    preview: '',
-    name: '',
-    size: 0,
-    type: ''
-  });
+  const [file, setFile] = useState<IFile>
+  (
+    window &&
+    window.localStorage.getItem('file')
+    ?
+      window.JSON.parse(localStorage.getItem('file') as string)
+    :
+      {
+        id: '',
+        preview: '',
+        name: '',
+        size: 0,
+        type: ''
+      }
+  );
 
   useEffect(() =>
   {
-    window.localStorage.setItem('file', JSON.stringify(file));
+    if (typeof window !== undefined)
+    {
+      window.localStorage.setItem('file', JSON.stringify(file));
+    }
   }, [file]);
 
   // Drop a file
