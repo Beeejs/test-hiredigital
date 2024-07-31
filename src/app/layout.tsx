@@ -3,6 +3,9 @@ import './globals.css';
 /* Nextjs */
 import type { Metadata } from 'next';
 
+/* Providers */
+import Providers from './provider';
+
 export const metadata: Metadata = {
   title: 'Test | Hire Digital',
   description: 'Test | Hire Digital'
@@ -17,7 +20,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        {children}
+        <Providers>
+          {children}
+        </Providers>
       </body>
     </html>
   );
