@@ -8,12 +8,10 @@ export async function POST(request: Request): Promise<NextResponse>
 
   if (filename && request.body)
   {
-    const blob = await put(filename, request.body,
-      {
-        access: 'public'
-        // multipart: true => Heavy upload
-      }
-    );
+    const blob = await put(filename, request.body, {
+      access: 'public',
+      cacheControlMaxAge: 0 // Set to 0 to disable caching in the browser and edge
+    });
 
     return NextResponse.json(blob);
   }
@@ -26,12 +24,12 @@ export async function POST(request: Request): Promise<NextResponse>
 export async function PUT(request: Request)
 {
   const { searchParams } = new URL(request.url);
-  const  fromUrl = searchParams.get('fromUrl') || '';
-  const  toPathname = searchParams.get('toPathname') || '';
+  const fromUrl = searchParams.get('fromUrl') || '';
+  const toPathname = searchParams.get('toPathname') || '';
 
   const blob = await copy(fromUrl, toPathname, { access: 'public' });
 
-  return Response.json(blob);
+  return NextResponse.json(blob);
 };
 
 export async function DELETE(request: Request)
