@@ -17,6 +17,8 @@ export const uploadFile = async(file: IFile) =>
 
     const response = await blobApiFile.post(`?filename=${file.name}`, file);
 
+    console.log(response)
+
     return {
       data: response.data as PutBlobResult,
       status : response.status

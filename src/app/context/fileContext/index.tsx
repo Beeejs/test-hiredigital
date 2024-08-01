@@ -29,11 +29,6 @@ const FileContext = ({ children }: { children: React.ReactNode }) =>
     }
   );
 
- /*  useEffect(() =>
-  {
-    localStorage.setItem('file', JSON.stringify(file));
-  }, [file]); */
-
   // Drop a file
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) =>
   {
