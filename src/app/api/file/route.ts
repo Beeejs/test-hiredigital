@@ -8,14 +8,14 @@ export async function POST(request: Request): Promise<NextResponse>
 
   if (filename && request.body)
   {
-    const blob = await put(filename, request.body, {
-      access: 'public',
-      cacheControlMaxAge: 0 // Disable caching in the browser and edge
-    });
+    const blob = await put(filename, request.body,
+      {
+        access: 'public'
+        // multipart: true => Heavy upload
+      }
+    );
 
-    const response = NextResponse.json(blob);
-    response.headers.set('Cache-Control', 'no-store');
-    return response;
+    return NextResponse.json(blob);
   }
   else
   {
@@ -26,14 +26,12 @@ export async function POST(request: Request): Promise<NextResponse>
 export async function PUT(request: Request)
 {
   const { searchParams } = new URL(request.url);
-  const fromUrl = searchParams.get('fromUrl') || '';
-  const toPathname = searchParams.get('toPathname') || '';
+  const  fromUrl = searchParams.get('fromUrl') || '';
+  const  toPathname = searchParams.get('toPathname') || '';
 
   const blob = await copy(fromUrl, toPathname, { access: 'public' });
 
-  const response = NextResponse.json(blob);
-  response.headers.set('Cache-Control', 'no-store');
-  return response;
+  return Response.json(blob);
 };
 
 export async function DELETE(request: Request)
@@ -42,7 +40,5 @@ export async function DELETE(request: Request)
   const urlToDelete = searchParams.get('url') as string;
   await del(urlToDelete);
 
-  const response = new Response();
-  response.headers.set('Cache-Control', 'no-store');
-  return response;
+  return new Response();
 }
