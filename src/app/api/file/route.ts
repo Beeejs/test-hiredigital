@@ -10,10 +10,12 @@ export async function POST(request: Request): Promise<NextResponse>
   {
     const blob = await put(filename, request.body, {
       access: 'public',
-      cacheControlMaxAge: 0 // Set to 0 to disable caching in the browser and edge
+      cacheControlMaxAge: 0 // Disable caching in the browser and edge
     });
 
-    return NextResponse.json(blob);
+    const response = NextResponse.json(blob);
+    response.headers.set('Cache-Control', 'no-store');
+    return response;
   }
   else
   {
@@ -29,7 +31,9 @@ export async function PUT(request: Request)
 
   const blob = await copy(fromUrl, toPathname, { access: 'public' });
 
-  return NextResponse.json(blob);
+  const response = NextResponse.json(blob);
+  response.headers.set('Cache-Control', 'no-store');
+  return response;
 };
 
 export async function DELETE(request: Request)
@@ -38,5 +42,7 @@ export async function DELETE(request: Request)
   const urlToDelete = searchParams.get('url') as string;
   await del(urlToDelete);
 
-  return new Response();
+  const response = new Response();
+  response.headers.set('Cache-Control', 'no-store');
+  return response;
 }
